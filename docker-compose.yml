@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: todopostgresdev
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: tododbdev
+      POSTGRES_USER: todoapplicationdev
+      POSTGRES_PASSWORD: passwd
+    ports:
+      - "2345:5432"
+    restart: unless-stopped

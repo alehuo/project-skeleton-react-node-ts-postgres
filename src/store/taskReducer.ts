@@ -44,11 +44,11 @@ export const receiveTasks = (tasks: Task[]): ReceiveTasks => {
   }
 }
 
-export const addTask = (taskName: string, ownerId: string, sortIndex: number ) => {
+export const addTask = (taskName: string, ownerId: string, sortindex: number ) => {
   const body: Omit<Task, 'id'> = { 
     name: taskName, 
     owner: Number(ownerId), 
-    sortIndex: sortIndex
+    sortindex: sortindex
   }
   return async (dispatch: Dispatch<TaskAction>) => {
     const task: Task = await postJSON('/api/project', body)

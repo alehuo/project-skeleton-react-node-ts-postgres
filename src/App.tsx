@@ -25,7 +25,7 @@ const App = (props: Props) => {
   }, [])
 
   const tasks: Task[] = Object.values(props.tasks)
-    .sort((a, b) => a.sortIndex - b.sortIndex)
+    .sort((a, b) => a.sortindex - b.sortindex)
 
   return (
     <div>

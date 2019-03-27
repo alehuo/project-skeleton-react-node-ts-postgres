@@ -1,6 +1,6 @@
 export interface Task {
   id: number
   name: string
-  sortIndex: number
+  sortindex: number
   owner: number
 }

@@ -21,12 +21,23 @@ type TaskContainerProps =
   TaskContainerStoreProps
 
 const TaskContainer = (props: TaskContainerProps) => {
-  
-  console.log(props.taskid)
 
   return (
     <div className="TaskContainer">
-      {props.tasks[props.taskid].name}
+      <p>{props.tasks[props.taskid].name}</p>
+      <br/>
+      <button onClick={() => console.log('done')}>
+        Mark as done
+      </button>
+      <button onClick={() => console.log('delete')}>
+        Delete
+      </button>
+      <button onClick={() => console.log('move up')}>
+        Move up
+      </button>
+      <button onClick={() => console.log('move down')}>
+        Move down
+      </button>
     </div>
   )
 }

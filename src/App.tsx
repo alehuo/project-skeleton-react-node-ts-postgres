@@ -5,6 +5,7 @@ import { receiveTasks } from './store/taskReducer'
 import { StoreState } from './store/store'
 import { connect } from 'react-redux'
 import { Task } from '../src-common/entity/Task';
+import TodoList from './components/TodoList';
 
 interface AppStoreProps {
   tasks: Task[]
@@ -30,12 +31,7 @@ const App = (props: Props) => {
   return (
     <div>
       <p>Todo-app - a React + Node Typescript skeleton</p>
-      <ul>
-        {tasks.map(item => (
-          <li key={item.id}> - {item.name}</li>
-        ))
-        }
-      </ul>
+      <TodoList/>
     </div> 
   )
 }

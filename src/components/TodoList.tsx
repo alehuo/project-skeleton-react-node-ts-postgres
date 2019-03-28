@@ -2,6 +2,7 @@ import React from 'react'
 import { Task } from '../../src-common/entity/Task';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
+import TaskContainer from './TaskContainer';
 
 interface TodoListDispatchProps {
 }
@@ -18,12 +19,13 @@ const TodoList = (props: TodoListProps) => {
     .sort((a, b) => a.sortindex - b.sortindex)
 
   return (
-    <ul>
+    <div>
       {sortedTasks.map(item => (
-        <li key={item.id}> - {item.name}</li>
+        <TaskContainer key={item.id} taskid={item.id} />
       ))
       }
-    </ul>
+    </div>
+    
   )
 }
 

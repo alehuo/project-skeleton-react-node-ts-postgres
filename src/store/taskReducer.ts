@@ -51,8 +51,7 @@ export const addTask = (taskName: string, ownerId: string, sortindex: number ) =
     sortindex: sortindex
   }
   return async (dispatch: Dispatch<TaskAction>) => {
-    const task: Task = await postJSON('/api/project', body)
-    console.log(task)
+    const { task }  = await postJSON('/api/v1/task', body)
     return dispatch({
       type: 'ADD-TASK',
       task

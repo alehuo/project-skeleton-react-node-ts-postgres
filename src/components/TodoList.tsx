@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Task } from '../../src-common/entity/Task';
-import { addTask } from '../store/taskReducer';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
 

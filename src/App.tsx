@@ -6,6 +6,7 @@ import { StoreState } from './store/store'
 import { connect } from 'react-redux'
 import { Task } from '../src-common/entity/Task';
 import TodoList from './components/TodoList';
+import AddTaskButton from './components/AddTaskButton';
 
 interface AppStoreProps {
   tasks: Task[]
@@ -22,7 +23,7 @@ type Props = AppStoreProps & DispatchProps
 const App = (props: Props) => {
 
   useEffect(() => {
-    getJSON('/api/v1/projects').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
+    getJSON('/api/v1/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
   }, [])
 
   const tasks: Task[] = Object.values(props.tasks)
@@ -32,6 +33,7 @@ const App = (props: Props) => {
     <div>
       <p>Todo-app - a React + Node Typescript skeleton</p>
       <TodoList/>
+      <AddTaskButton />
     </div> 
   )
 }

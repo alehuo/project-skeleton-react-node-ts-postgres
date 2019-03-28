@@ -31,13 +31,14 @@ CREATE TABLE todoapp.task (
     id integer NOT NULL,
     name character varying NOT NULL,
     sortindex integer NOT NULL,
-    owner integer NOT NULL
+    owner integer NOT NULL,
+    PRIMARY KEY (id)
 );
 
 ALTER TABLE todoapp.task OWNER TO todoapplicationdev;
 
 CREATE SEQUENCE todoapp.task_id_seq
-    START WITH 100
+    START WITH 1000
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE

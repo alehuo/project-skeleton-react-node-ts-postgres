@@ -4,7 +4,7 @@ import path from 'path'
 import express from 'express'
 import session from 'express-session'
 import bodyParser from 'body-parser'
-import projects from './routes/projects'
+import tasks from './routes/tasks'
 
 const app = express()
 app.use(bodyParser.json())
@@ -23,6 +23,6 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.use(projects)
+app.use(tasks)
 
 app.listen(process.env.PORT || 8001)

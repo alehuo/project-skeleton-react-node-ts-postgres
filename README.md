@@ -9,7 +9,9 @@
 - Backend
   - Express
 - Database
-  - none
+  - PostgreSQL
+  - `node-postgres` for connection
+  - `yesql` for named queries
 - Docker-compose
   - currently from database only
 

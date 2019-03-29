@@ -3,12 +3,14 @@ import { Task } from '../../src-common/entity/Task';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
 import './styles/TaskContainer.css';
+import { deleteTask } from '../store/taskReducer';
 
 interface TaskContainerPassedProps {
   taskid: number
 }
 
 interface TaskContainerDispatchProps {
+  deleteTask: typeof deleteTask
 }
 
 interface TaskContainerStoreProps {
@@ -29,7 +31,7 @@ const TaskContainer = (props: TaskContainerProps) => {
       <button onClick={() => console.log('done')}>
         Mark as done
       </button>
-      <button onClick={() => console.log('delete')}>
+      <button onClick={() => props.deleteTask(props.taskid)}>
         Delete
       </button>
       <button onClick={() => console.log('move up')}>
@@ -49,6 +51,7 @@ const mapStateToProps = (state: StoreState) => {
 }
 
 const mapDispatchToProps = {
+  deleteTask
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer)

@@ -24,9 +24,9 @@
   - Start a container with postgres instance
     - `docker-compose up -d`
   - Define schemas
-    - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" --file ddl.sql`
+    - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" --file src-database/ddl.sql`
   - Seed the database
-    - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" --file seed.sql`
+    - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" --file src-database/seed.sql`
   - Test it works
     - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" -c "SELECT * FROM todoapp.task"`
 - Run development server `npm start`

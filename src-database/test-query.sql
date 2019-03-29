@@ -1,0 +1,2 @@
+SELECT *
+FROM todoapp.task;

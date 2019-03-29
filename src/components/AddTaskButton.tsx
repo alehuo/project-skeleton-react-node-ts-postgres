@@ -17,13 +17,12 @@ type AddTaskButtonProps =  AddTaskButtonDispatchProps & AddTaskButtonStoreProps
 const AddTaskButton = (props: AddTaskButtonProps) => {
   const [newTask, setNewTask] = useState("");
 
-  const newSortIndex = Math.max(
-    ...Object.values(props.tasks).map(task => task.sortindex))
+  const newSortIndex = Object.values(props.tasks).length
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     console.log('submit!', newTask)
-    props.addTask( newTask, '123', newSortIndex + 1 )
+    props.addTask( newTask, '123', newSortIndex )
     setNewTask("")
   }
 
@@ -45,7 +44,7 @@ const AddTaskButton = (props: AddTaskButtonProps) => {
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks.byid
   }
 }
 

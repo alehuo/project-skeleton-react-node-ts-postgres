@@ -1,11 +1,16 @@
 import { Dispatch } from 'redux'
 import { postJSON, deleteJSON } from '../fetch'
-import { Omit, assoc, dissoc } from 'ramda'
+import { Omit, assoc, dissoc, append } from 'ramda'
 import { Task } from '../../src-common/entity/Task'
-import { arrayToByIdObject } from '../helpers'
+import { arrayToByIdObject, moveItemUp, moveItemDown } from '../helpers'
 
 interface TasksById {
-  [key: string]: Task
+  [key: string]: Omit<Task, 'sortindex'>
+}
+
+interface StateByKeys {
+  byid: TasksById,
+  orderOfTasks: number[]
 }
 
 interface ReceiveTasks {
@@ -23,22 +28,55 @@ interface DeleteTask {
   taskid: number
 }
 
-type TaskAction = ReceiveTasks | AddTask | DeleteTask
+interface MoveUp {
+  type: 'MOVE-UP',
+  taskid: number
+}
 
-export type TasksState = TasksById
+interface MoveDown {
+  type: 'MOVE-DOWN',
+  taskid: number
+}
 
-const taskReducer = (state: TasksState = {}, action: TaskAction) => {
+type TaskAction = ReceiveTasks | AddTask | DeleteTask | MoveUp | MoveDown
+
+export type TasksState = StateByKeys
+
+const emptyState: TasksState = { byid: {}, orderOfTasks: [] }
+
+const taskReducer = (state: TasksState = emptyState, action: TaskAction) => {
   switch (action.type) {
 
     case 'RECEIVE-TASKS':
-      return arrayToByIdObject(action.tasks)
+      const orderArray = action.tasks
+        .sort((a, b) => a.sortindex - b.sortindex)
+        .map(task => task.id)
+
+      const taskWithoutSortindex: Omit<Task, 'sortindex'>[] = action.tasks
+          .map(task => dissoc('sortindex', task))
+
+      return {
+        byid: arrayToByIdObject(taskWithoutSortindex),
+        orderOfTasks: orderArray
+      }
 
     case 'ADD-TASK':
-      return assoc(action.task.id.toString(), action.task, state)
+      return { ...state,
+        byid: assoc(action.task.id.toString(), action.task, state.byid), 
+        orderOfTasks: append(action.task.id, state.orderOfTasks )
+      }
 
     case 'DELETE-TASK':
-      const delState: TasksById = dissoc(action.taskid.toString(), state)
-      return delState
+      return { ...state, 
+        byid: dissoc(action.taskid.toString(), state.byid),
+        orderOfTasks: state.orderOfTasks.filter(item => item !== action.taskid)
+      }
+
+    case 'MOVE-UP':
+      return { ...state, orderOfTasks: moveItemUp(state.orderOfTasks, action.taskid) }
+
+    case 'MOVE-DOWN':
+      return { ...state, orderOfTasks: moveItemDown(state.orderOfTasks, action.taskid) }
 
     default:
       return state
@@ -87,6 +125,24 @@ export const deleteTask = (taskid: number) => {
       return onError(error)
     } 
   }
- }
+}
+
+export const moveTaskUp = (taskid: number) => {
+  return async (dispatch: Dispatch<TaskAction>) => {
+    return dispatch({
+      type: 'MOVE-UP',
+      taskid
+    })
+  }
+}
+
+export const moveTaskDown = (taskid: number) => {
+  return async (dispatch: Dispatch<TaskAction>) => {
+    return dispatch({
+      type: 'MOVE-DOWN',
+      taskid
+    })
+  }
+}
 
 export default taskReducer

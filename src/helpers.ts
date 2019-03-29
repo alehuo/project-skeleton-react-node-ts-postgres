@@ -1,3 +1,5 @@
+import { move } from 'ramda'
+
 interface ObjectWithId {
   id: number
 }
@@ -15,4 +17,22 @@ export function arrayToByIdObject(array: ObjectWithId[]): IdObject {
   })
 
   return obj
+}
+
+export function moveItemUp(array: number[], itemToMove: number) {
+  const origIndex = array.findIndex(item => item === itemToMove)
+  if (origIndex === 0) {
+    return array
+  } else {
+    return move(origIndex, origIndex - 1, array)
+  }
+}
+
+export function moveItemDown(array: number[], itemToMove: number) {
+  const origIndex = array.findIndex(item => item === itemToMove)
+  if (origIndex === array.length) {
+    return array
+  } else {
+    return move(origIndex, origIndex + 1, array)
+  }
 }

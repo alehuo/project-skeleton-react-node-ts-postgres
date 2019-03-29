@@ -9,19 +9,17 @@ interface TodoListDispatchProps {
 
 interface TodoListStoreProps {
   tasks: Task[]
+  taskOrder: number[]
 }
 
 type TodoListProps =  TodoListDispatchProps & TodoListStoreProps
 
 const TodoList = (props: TodoListProps) => {
-  
-  const sortedTasks: Task[] = Object.values(props.tasks)
-    .sort((a, b) => a.sortindex - b.sortindex)
 
   return (
     <div>
-      {sortedTasks.map(item => (
-        <TaskContainer key={item.id} taskid={item.id} />
+      {props.taskOrder.map(taskKey => (
+        <TaskContainer key={taskKey} taskid={taskKey} />
       ))
       }
     </div>
@@ -31,7 +29,8 @@ const TodoList = (props: TodoListProps) => {
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks.byid,
+    taskOrder: state.tasks.orderOfTasks
   }
 }
 

@@ -3,7 +3,7 @@ import { Task } from '../../src-common/entity/Task';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
 import './styles/TaskContainer.css';
-import { deleteTask } from '../store/taskReducer';
+import { deleteTask, moveTaskUp, moveTaskDown } from '../store/taskReducer';
 
 interface TaskContainerPassedProps {
   taskid: number
@@ -11,6 +11,8 @@ interface TaskContainerPassedProps {
 
 interface TaskContainerDispatchProps {
   deleteTask: typeof deleteTask
+  moveTaskUp: typeof moveTaskUp
+  moveTaskDown: typeof moveTaskDown
 }
 
 interface TaskContainerStoreProps {
@@ -34,10 +36,10 @@ const TaskContainer = (props: TaskContainerProps) => {
       <button onClick={() => props.deleteTask(props.taskid)}>
         Delete
       </button>
-      <button onClick={() => console.log('move up')}>
+      <button onClick={() => props.moveTaskUp(props.taskid)}>
         Move up
       </button>
-      <button onClick={() => console.log('move down')}>
+      <button onClick={() => props.moveTaskDown(props.taskid)}>
         Move down
       </button>
     </div>
@@ -46,12 +48,14 @@ const TaskContainer = (props: TaskContainerProps) => {
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks.byid
   }
 }
 
 const mapDispatchToProps = {
-  deleteTask
+  deleteTask,
+  moveTaskUp,
+  moveTaskDown
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer)

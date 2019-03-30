@@ -1,6 +1,42 @@
 .TaskContainer {
-  border: 1px solid #d0d0d0;
-  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-todo {
+  background-color: rgb(224, 253, 255);
+
+}
+
+.status-done {
+  background-color: rgb(224, 255, 225);
+}
+
+.column-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.growing {
+  flex-grow: 1;
   margin: 10px;
-  padding: 5px;
+}
+
+.row-group{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.row-group-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.centered {
+  justify-content: center;
 }

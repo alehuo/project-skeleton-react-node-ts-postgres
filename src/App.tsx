@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Task } from '../src-common/entity/Task';
 import TodoList from './components/TodoList';
 import AddTaskButton from './components/AddTaskButton';
+import Header from './components/Header';
 
 interface AppStoreProps {
   tasks: Task[]
@@ -31,9 +32,9 @@ const App = (props: Props) => {
 
   return (
     <div>
-      <p>Todo-app - a React + Node Typescript skeleton</p>
+      <Header/>
       <TodoList/>
-      <AddTaskButton />
+      <AddTaskButton/>
     </div> 
   )
 }

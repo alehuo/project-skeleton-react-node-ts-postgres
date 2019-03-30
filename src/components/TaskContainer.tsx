@@ -41,24 +41,39 @@ const TaskContainer = (props: TaskContainerProps) => {
     }
   }
 
+  const statusStyle = () => {
+    if (task.status === 'todo') {
+      return 'status-todo'
+    } else {
+      return 'status-done'
+    }
+  }
+
   return (
-    <div className="TaskContainer">
-      <p>{task.name}</p>
-      <br/>
-      <input
-        name="task-status"
-        type="checkbox"
-        checked={isDone(task)}
-        onChange={() => changeStatus()} />
-      <button onClick={() => props.deleteTask(props.taskid)}>
-        Delete
-      </button>
-      <button onClick={() => props.moveTaskUp(props.taskid)}>
-        Move up
-      </button>
-      <button onClick={() => props.moveTaskDown(props.taskid)}>
-        Move down
-      </button>
+    <div className={`todo-standard-box TaskContainer ${statusStyle()}`}>
+      <div className='row-group'>
+        <input
+          name="task-status"
+          type="checkbox"
+          checked={isDone(task)}
+          onChange={() => changeStatus()} />
+        <button onClick={() => props.deleteTask(props.taskid)}>
+          X
+        </button>
+      </div>
+      
+      <div className={`column-group growing`}>
+        <p>{task.name}</p>
+      </div>
+      
+      <div className='column-group'>
+        <button onClick={() => props.moveTaskUp(props.taskid)}>
+          ↑
+        </button>
+        <button onClick={() => props.moveTaskDown(props.taskid)}>
+          ↓
+        </button>
+      </div>
     </div>
   )
 }

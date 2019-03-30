@@ -27,18 +27,20 @@ const AddTaskButton = (props: AddTaskButtonProps) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        New Task:
-        <input 
-          type="text"
-          name="taskname"
-          value={newTask}
-          onChange={e => setNewTask(e.target.value)}
-        />
-      </label>
-      <input type="submit" value="Save" />
-    </form>
+    <div className={`todo-standard-box column-group centered`}>
+      <form onSubmit={handleSubmit}>
+        <label>
+          New Task:
+          <input 
+            type="text"
+            name="taskname"
+            value={newTask}
+            onChange={e => setNewTask(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Save" />
+      </form>
+    </div>
   )
 }
 

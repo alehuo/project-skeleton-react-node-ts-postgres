@@ -1,0 +1,12 @@
+.todo-standard-box {
+  border: 1px solid #d0d0d0;
+  width: 400px;
+  height: 50px;
+  margin: 10px;
+  padding: 10px;
+}
+
+button {
+  margin-left: 5px;
+  height: 20px;
+}

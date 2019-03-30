@@ -7,13 +7,14 @@ export async function getTasks() {
 }
 
 export async function createTask(newTask: Task) {
-  const result = await db
-    .query(yesql.createTask(newTask).text, [
+  const result = await db.query(
+    yesql.createTask(newTask).text, [
       newTask.name, 
       newTask.sortindex, 
       newTask.owner,
-      newTask.status]
-    )
+      newTask.status
+    ]
+  )
   return result.rows[0]
 }
 

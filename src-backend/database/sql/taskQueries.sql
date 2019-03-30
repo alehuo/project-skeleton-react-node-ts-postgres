@@ -11,7 +11,7 @@ RETURNING "id", "name", "sortindex", "owner", "status";
 -- deleteTask
 DELETE
 FROM todoapp.task
-WHERE id=$1;
+WHERE id=$1
 
 -- updateTaskStatus
 UPDATE todoapp.task

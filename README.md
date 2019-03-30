@@ -29,6 +29,8 @@
     - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" --file src-database/seed.sql`
   - Test it works
     - `psql "postgresql://todoapplicationdev:passwd@localhost:2345/tododbdev" -c "SELECT * FROM todoapp.task"`
+  - Or run all psql-commands with a script:
+    - `bash init_and_seed_db.sh`
 - Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
 

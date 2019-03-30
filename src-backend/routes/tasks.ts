@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { getTasks, createTask, deleteTask } from '../database/taskQueries'
+import { getTasks, createTask, deleteTask, changeTaskStatus } from '../database/taskQueries'
 import { Task } from '../../src-common/entity/Task';
 
 const router = Router()
@@ -22,6 +22,21 @@ router.delete('/api/v1/task/:taskid', async (request: Request, response: Respons
     response.status(200)
     response.send({})
   } catch {
+    response.status(404)
+    response.send({})
+  }
+})
+
+router.patch('/api/v1/task/:taskid/status/:taskstatus', async (request: Request, response: Response) => {
+  console.log('patch endpoint')
+  const id = request.params.taskid
+  const status = request.params.taskstatus
+  try {
+    await changeTaskStatus(id, status)
+    response.status(200)
+    response.send({})
+  } catch (error) {
+    console.log(error)
     response.status(404)
     response.send({})
   }

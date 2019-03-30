@@ -3,7 +3,7 @@ import { Task } from '../../src-common/entity/Task';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
 import './styles/TaskContainer.css';
-import { deleteTask, moveTaskUp, moveTaskDown } from '../store/taskReducer';
+import { deleteTask, moveTaskUp, moveTaskDown, changeTaskStatus } from '../store/taskReducer';
 
 interface TaskContainerPassedProps {
   taskid: number
@@ -13,6 +13,7 @@ interface TaskContainerDispatchProps {
   deleteTask: typeof deleteTask
   moveTaskUp: typeof moveTaskUp
   moveTaskDown: typeof moveTaskDown
+  changeTaskStatus: typeof changeTaskStatus
 }
 
 interface TaskContainerStoreProps {
@@ -26,13 +27,29 @@ type TaskContainerProps =
 
 const TaskContainer = (props: TaskContainerProps) => {
 
+  const task = props.tasks[props.taskid]
+
+  const isDone = (task: Task) => {
+    return task.status === 'done'
+  }
+
+  const changeStatus = () => {
+    if (task.status === 'todo') {
+      props.changeTaskStatus(task.id, 'done')
+    } else {
+      props.changeTaskStatus(task.id, 'todo')
+    }
+  }
+
   return (
     <div className="TaskContainer">
-      <p>{props.tasks[props.taskid].name}</p>
+      <p>{task.name}</p>
       <br/>
-      <button onClick={() => console.log('done')}>
-        Mark as done
-      </button>
+      <input
+        name="task-status"
+        type="checkbox"
+        checked={isDone(task)}
+        onChange={() => changeStatus()} />
       <button onClick={() => props.deleteTask(props.taskid)}>
         Delete
       </button>
@@ -55,7 +72,8 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = {
   deleteTask,
   moveTaskUp,
-  moveTaskDown
+  moveTaskDown,
+  changeTaskStatus
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer)

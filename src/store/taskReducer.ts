@@ -1,8 +1,9 @@
 import { Dispatch } from 'redux'
-import { postJSON, deleteJSON } from '../fetch'
+import { postJSON, deleteJSON, patchJSON } from '../fetch'
 import { Omit, assoc, dissoc, append } from 'ramda'
 import { Task } from '../../src-common/entity/Task'
 import { arrayToByIdObject, moveItemUp, moveItemDown } from '../helpers'
+import assocPath from 'ramda/es/assocPath';
 
 interface TasksById {
   [key: string]: Omit<Task, 'sortindex'>
@@ -38,7 +39,13 @@ interface MoveDown {
   taskid: number
 }
 
-type TaskAction = ReceiveTasks | AddTask | DeleteTask | MoveUp | MoveDown
+interface ChangeStatus {
+  type: 'CHANGE-STATUS',
+  taskid: number,
+  newStatus: string
+}
+
+type TaskAction = ReceiveTasks | AddTask | DeleteTask | MoveUp | MoveDown | ChangeStatus
 
 export type TasksState = StateByKeys
 
@@ -73,10 +80,15 @@ const taskReducer = (state: TasksState = emptyState, action: TaskAction) => {
       }
 
     case 'MOVE-UP':
+      console.log('MOVE-UP')
+      console.log(assocPath(['byid', action.taskid, 'status'], 'done', state))
       return { ...state, orderOfTasks: moveItemUp(state.orderOfTasks, action.taskid) }
 
     case 'MOVE-DOWN':
       return { ...state, orderOfTasks: moveItemDown(state.orderOfTasks, action.taskid) }
+
+    case 'CHANGE-STATUS':
+      return assocPath(['byid', action.taskid, 'status'], action.newStatus, state)
 
     default:
       return state
@@ -91,11 +103,12 @@ export const receiveTasks = (tasks: Task[]): ReceiveTasks => {
   }
 }
 
-export const addTask = (taskName: string, ownerId: string, sortindex: number ) => {
+export const addTask = (taskName: string, ownerId: string, sortindex: number, status: string ) => {
   const body: Omit<Task, 'id'> = { 
     name: taskName, 
     owner: Number(ownerId), 
-    sortindex: sortindex
+    sortindex: sortindex,
+    status: status
   }
   return async (dispatch: Dispatch<TaskAction>) => {
     const { task } = await postJSON('/api/v1/task', body)
@@ -141,6 +154,17 @@ export const moveTaskDown = (taskid: number) => {
     return dispatch({
       type: 'MOVE-DOWN',
       taskid
+    })
+  }
+}
+
+export const changeTaskStatus = (taskid: number, newStatus: string) => {
+  return async (dispatch: Dispatch<TaskAction>) => {
+    patchJSON(`/api/v1/task/${taskid}/status/${newStatus}`)
+    return dispatch({
+      type: 'CHANGE-STATUS',
+      taskid,
+      newStatus
     })
   }
 }

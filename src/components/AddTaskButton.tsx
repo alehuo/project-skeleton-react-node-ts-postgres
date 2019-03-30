@@ -22,7 +22,7 @@ const AddTaskButton = (props: AddTaskButtonProps) => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     console.log('submit!', newTask)
-    props.addTask( newTask, '123', newSortIndex )
+    props.addTask( newTask, '123', newSortIndex, 'todo' )
     setNewTask("")
   }
 

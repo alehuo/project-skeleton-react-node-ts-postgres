@@ -32,6 +32,7 @@ CREATE TABLE todoapp.task (
     name character varying NOT NULL,
     sortindex integer NOT NULL,
     owner integer NOT NULL,
+    status character varying NOT NULL DEFAULT 'todo',
     PRIMARY KEY (id)
 );
 

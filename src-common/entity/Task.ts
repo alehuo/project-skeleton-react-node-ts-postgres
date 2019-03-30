@@ -3,4 +3,5 @@ export interface Task {
   name: string
   sortindex: number
   owner: number
+  status: string
 }

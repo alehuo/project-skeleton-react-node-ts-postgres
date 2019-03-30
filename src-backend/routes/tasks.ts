@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { getTasks, createTask, deleteTask, changeTaskStatus } from '../database/taskQueries'
+import { getTasks, createTask, deleteTask, changeTaskStatus, moveTaskUp, moveTaskDown } from '../database/taskQueries'
 import { Task } from '../../src-common/entity/Task';
 
 const router = Router()
@@ -40,6 +40,18 @@ router.patch('/api/v1/task/:taskid/status/:taskstatus', async (request: Request,
     response.status(404)
     response.send({})
   }
+})
+
+router.patch('/api/v1/movetaskup/:taskid', async (request: Request, response: Response) => {
+  console.log('ENDPOINT: move up')
+  await moveTaskUp(request.params.taskid)
+  response.send({})
+})
+
+router.patch('/api/v1/movetaskdown/:taskid', async (request: Request, response: Response) => {
+  console.log('ENDPOINT: move down')
+  await moveTaskDown(request.params.taskid)
+  response.send({})
 })
 
 export default router

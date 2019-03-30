@@ -142,6 +142,7 @@ export const deleteTask = (taskid: number) => {
 
 export const moveTaskUp = (taskid: number) => {
   return async (dispatch: Dispatch<TaskAction>) => {
+    patchJSON(`/api/v1/movetaskup/${taskid}`)
     return dispatch({
       type: 'MOVE-UP',
       taskid
@@ -151,6 +152,7 @@ export const moveTaskUp = (taskid: number) => {
 
 export const moveTaskDown = (taskid: number) => {
   return async (dispatch: Dispatch<TaskAction>) => {
+    patchJSON(`/api/v1/movetaskdown/${taskid}`)
     return dispatch({
       type: 'MOVE-DOWN',
       taskid

@@ -17,7 +17,7 @@ type AddTaskButtonProps =  AddTaskButtonDispatchProps & AddTaskButtonStoreProps
 const AddTaskButton = (props: AddTaskButtonProps) => {
   const [newTask, setNewTask] = useState("");
 
-  const newSortIndex = Object.values(props.tasks).length
+  const newSortIndex = Object.values(props.tasks).length + 1
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

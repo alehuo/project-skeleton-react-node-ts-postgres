@@ -17,3 +17,35 @@ WHERE id=$1
 UPDATE todoapp.task
 SET status = $2::text
 WHERE id=$1;
+
+-- moveTaskUpPart1
+WITH originalPosition AS (
+  SELECT sortindex
+  FROM todoapp.task
+  WHERE id=$1
+  LIMIT 1
+)
+UPDATE todoapp.task
+  SET sortindex = sortindex + 1
+  WHERE sortindex IN (SELECT (sortindex - 1) FROM originalPosition);
+
+-- moveTaskUpPart2
+UPDATE todoapp.task
+  SET sortindex = sortindex - 1
+  WHERE id=$1;
+
+-- moveTaskDownPart1
+WITH originalPosition AS (
+  SELECT sortindex
+  FROM todoapp.task
+  WHERE id=$1
+  LIMIT 1
+)
+UPDATE todoapp.task
+  SET sortindex = sortindex - 1
+  WHERE sortindex IN (SELECT (sortindex + 1) FROM originalPosition);
+
+-- moveTaskDownPart2
+UPDATE todoapp.task
+  SET sortindex = sortindex + 1
+  WHERE id=$1;

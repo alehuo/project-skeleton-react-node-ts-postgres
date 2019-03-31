@@ -4,6 +4,7 @@ import { Omit, assoc, dissoc, append } from 'ramda'
 import { Task } from '../../src-common/entity/Task'
 import { arrayToByIdObject, moveItemUp, moveItemDown } from '../helpers'
 import assocPath from 'ramda/es/assocPath';
+import { logger_info, logger_error } from '../loggers';
 
 interface TasksById {
   [key: string]: Omit<Task, 'sortindex'>
@@ -80,8 +81,6 @@ const taskReducer = (state: TasksState = emptyState, action: TaskAction) => {
       }
 
     case 'MOVE-UP':
-      console.log('MOVE-UP')
-      console.log(assocPath(['byid', action.taskid, 'status'], 'done', state))
       return { ...state, orderOfTasks: moveItemUp(state.orderOfTasks, action.taskid) }
 
     case 'MOVE-DOWN':
@@ -96,7 +95,7 @@ const taskReducer = (state: TasksState = emptyState, action: TaskAction) => {
 }
 
 export const receiveTasks = (tasks: Task[]): ReceiveTasks => {
-  console.log('received:', tasks)
+  logger_info('received:', tasks)
   return {
     type: 'RECEIVE-TASKS',
     tasks
@@ -128,6 +127,7 @@ export const deleteTask = (taskid: number) => {
       })
     }
     function onError(error: any) {
+      logger_error(error)
       alert('Could not delete')
     }
     

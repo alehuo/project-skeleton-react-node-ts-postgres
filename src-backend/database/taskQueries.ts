@@ -1,5 +1,6 @@
 import { db, yesql } from './connection'
 import { Task } from '../../src-common/entity/Task';
+import { server_log_error } from '../server_loggers';
 
 export async function getTasks() {
   const result = await db.query(yesql.getTasks().text, null)
@@ -20,11 +21,10 @@ export async function createTask(newTask: Task) {
 
 export async function deleteTask(taskid: string) {
   const result = await db.query(yesql.deleteTask().text, [taskid])
-  console.log(result)
   if (result.rowCount === 0) {
     throw new Error("No such entity")
   } else {
-    return
+    return //What to return for success?
   }
 }
 
@@ -38,7 +38,7 @@ export async function changeTaskStatus(taskid: string, status: string) {
   if (result.rowCount !== 1) {
     throw new Error("No such entity")
   } else {
-    return
+    return //What to return for success?
   }
 }
 
@@ -56,7 +56,7 @@ export async function moveTaskUp(taskid: string) {
     await db.query("COMMIT;", [])   
     return
   } else {
-    console.log(res1, res2)
+    server_log_error(res1, res2)
     throw new Error("Error while moving task")
   }
 }
@@ -75,7 +75,7 @@ export async function moveTaskDown(taskid: string) {
     await db.query("COMMIT;", [])   
     return
   } else {
-    console.log(res1, res2)
+    server_log_error(res1, res2)
     throw new Error("Error while moving task")
   }
 }

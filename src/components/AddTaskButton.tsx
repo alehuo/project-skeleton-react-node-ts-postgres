@@ -3,6 +3,7 @@ import { Task } from '../../src-common/entity/Task';
 import { addTask } from '../store/taskReducer';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
+import { logger_info } from '../loggers';
 
 interface AddTaskButtonDispatchProps {
   addTask: typeof addTask
@@ -21,7 +22,7 @@ const AddTaskButton = (props: AddTaskButtonProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log('submit!', newTask)
+    logger_info('submit!', newTask)
     props.addTask( newTask, '123', newSortIndex, 'todo' )
     setNewTask("")
   }

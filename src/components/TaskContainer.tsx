@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './styles/TaskContainer.css';
 import { deleteTask, moveTaskUp, moveTaskDown, changeTaskStatus } from '../store/taskReducer';
 
-interface TaskContainerPassedProps {
+interface TaskContainerOwnProps {
   taskid: number
 }
 
@@ -17,17 +17,17 @@ interface TaskContainerDispatchProps {
 }
 
 interface TaskContainerStoreProps {
-  tasks: Task[]
+  task: Task
 }
 
 type TaskContainerProps =
-  TaskContainerPassedProps &
+  TaskContainerOwnProps &
   TaskContainerDispatchProps &
   TaskContainerStoreProps
 
 const TaskContainer = (props: TaskContainerProps) => {
 
-  const task = props.tasks[props.taskid]
+  const task = props.task
 
   const isDone = (task: Task) => {
     return task.status === 'done'
@@ -78,9 +78,9 @@ const TaskContainer = (props: TaskContainerProps) => {
   )
 }
 
-const mapStateToProps = (state: StoreState) => {
+const mapStateToProps = (state: StoreState, ownProps: TaskContainerOwnProps) => {
   return {
-    tasks: state.tasks.byid
+    task: state.tasks.byid[ownProps.taskid]
   }
 }
 

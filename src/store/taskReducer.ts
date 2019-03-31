@@ -7,7 +7,7 @@ import assocPath from 'ramda/es/assocPath';
 import { logger_info, logger_error } from '../loggers';
 
 interface TasksById {
-  [key: string]: Omit<Task, 'sortindex'>
+  [key: string]: Task
 }
 
 interface StateByKeys {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Task } from '../../src-common/entity/Task';
 import { addTask } from '../store/taskReducer';
 import { StoreState } from '../store/store';
 import { connect } from 'react-redux';
@@ -10,7 +9,7 @@ interface AddTaskButtonDispatchProps {
 }
 
 interface AddTaskButtonStoreProps {
-  tasks: Task[]
+  taskCount: number
 }
 
 type AddTaskButtonProps =  AddTaskButtonDispatchProps & AddTaskButtonStoreProps
@@ -18,7 +17,7 @@ type AddTaskButtonProps =  AddTaskButtonDispatchProps & AddTaskButtonStoreProps
 const AddTaskButton = (props: AddTaskButtonProps) => {
   const [newTask, setNewTask] = useState("");
 
-  const newSortIndex = Object.values(props.tasks).length + 1
+  const newSortIndex = props.taskCount + 1
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -47,7 +46,7 @@ const AddTaskButton = (props: AddTaskButtonProps) => {
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    tasks: state.tasks.byid
+    taskCount: Object.values(state.tasks).length
   }
 }
 

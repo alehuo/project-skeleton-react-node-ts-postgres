@@ -20,12 +20,11 @@ export async function createTask(newTask: Task) {
 }
 
 export async function deleteTask(taskid: string) {
-  const result = await db.query(yesql.deleteTask().text, [taskid])
-  if (result.rowCount === 0) {
-    throw new Error("No such entity")
-  } else {
-    return //What to return for success?
-  }
+  await db.query("BEGIN;", [])
+  const { rows } : any = await db.query(yesql.deleteTask().text, [taskid])
+  const sortIndexOfDeleted: any = rows[0]['sortindex']
+  await db.query(yesql.shiftTasksUp().text, [sortIndexOfDeleted])
+  await db.query("COMMIT;", [])
 }
 
 export async function changeTaskStatus(taskid: string, status: string) {
@@ -72,7 +71,7 @@ export async function moveTaskDown(taskid: string) {
     [taskid]
   )
   if ( res1.rowCount === 1 && res2.rowCount === 1 ) {
-    await db.query("COMMIT;", [])   
+    await db.query("COMMIT;", [])
     return
   } else {
     server_log_error(res1, res2)

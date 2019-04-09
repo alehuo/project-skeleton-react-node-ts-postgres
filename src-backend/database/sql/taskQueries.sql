@@ -12,6 +12,12 @@ RETURNING "id", "name", "sortindex", "owner", "status";
 DELETE
 FROM todoapp.task
 WHERE id=$1
+RETURNING "id", "name", "sortindex", "owner", "status";
+
+-- shiftTasksUp
+UPDATE todoapp.task
+SET sortindex = sortindex - 1
+WHERE sortindex > $1;
 
 -- updateTaskStatus
 UPDATE todoapp.task
